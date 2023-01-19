@@ -1,0 +1,9 @@
+.google-map-container {
+    height: 80vh;
+    width: 100%;
+}
+
+
+.google-map-marker {
+    color: aqua;
+}
