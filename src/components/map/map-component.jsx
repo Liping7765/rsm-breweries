@@ -29,7 +29,7 @@ export default function GoogleMap() {
         !data ? <div>loading data...</div> :
         <div className="google-map-container">
             <GoogleMapReact
-                    bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_KEY }}
+                    bootstrapURLKeys={{ key: process.env.GOOGLE_MAP_KEY }}
                 defaultCenter={defaultProps.center}
                 defaultZoom={defaultProps.zoom}
                 
