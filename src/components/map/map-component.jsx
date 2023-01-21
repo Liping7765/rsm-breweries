@@ -14,7 +14,6 @@ export default function GoogleMap() {
     const selection = useSelector((state) => state.selection);
 
 
-
     const defaultProps = {
         center: {
             lng:  CENTER.longitude,

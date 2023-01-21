@@ -8,3 +8,4 @@ export const URL = (`https://api.openbrewerydb.org/breweries?by_dist=${CENTER.la
 // zoom number of google map 
 export const ZOOM = 9;
 
+export const MY_URL = "https://rsm-springboot-backend.herokuapp.com/breweries";

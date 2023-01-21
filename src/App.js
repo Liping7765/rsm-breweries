@@ -12,11 +12,12 @@ function App() {
 
   const [currentState, setCurrentState] = useState("ALL");
   
+  const [currentApi, setCurrentApi] = useState(true)
 
   // fetch data of breweries from api 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getBreweries());
+      dispatch(getBreweries())
   }, [dispatch])
 
 
@@ -24,12 +25,18 @@ function App() {
     <div className="App">
       
       <Grid container>
-        <CustomizedAppBar setCurrentState={setCurrentState}></CustomizedAppBar>
+        <CustomizedAppBar
+          setCurrentState={setCurrentState}
+          setCurrentApi={setCurrentApi}
+          currentApi={currentApi}
+        ></CustomizedAppBar>
       </Grid>
 
       <Grid container>
         <Grid item xs={9}>
-          <GoogleMap currentState={currentState} ></GoogleMap>
+          <GoogleMap 
+              currentState={currentState} 
+          ></GoogleMap>
         </Grid>
 
         <Grid item xs={3}>

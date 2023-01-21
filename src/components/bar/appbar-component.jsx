@@ -1,9 +1,9 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import { InputLabel, Typography, Grid, MenuItem, Select } from '@mui/material';
+import { InputLabel, Stack, Typography, Grid, MenuItem, Select, Switch, FormControlLabel } from '@mui/material';
 import { US_STATES } from '../../constants/us_state';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getBreweriesFromNewApi, getBreweries } from '../../actions/brewery';
 
 
 
@@ -25,7 +25,7 @@ const displayAllState = (options, existed_states) => {
 
 
 
-export default function CustomizedAppBar({ setCurrentState }) {
+export default function CustomizedAppBar({ setCurrentState}) {
 
     const [selected, setSelected] = React.useState("ALL");
    
@@ -41,28 +41,66 @@ export default function CustomizedAppBar({ setCurrentState }) {
     const existed_states = new Set(data.map((bre)=>bre.state));
 
 
+    // use customizedApi to decide which api to fetch 
+    const [customizedApi, setCustomizedApi] = React.useState(false);
+    const dispatch = useDispatch();
+    const updateApiSource = ()=>{
+        setCustomizedApi(!customizedApi);
+    }
+
+    const chooseApi = (customizedApi) => {
+
+        if (customizedApi) {
+            // fire an action to fetch from my customized api 
+            dispatch(getBreweriesFromNewApi());
+            return;
+        }
+
+        // fetch from breweries api if false
+        dispatch(getBreweries());
+    }
+
+
+    // set up a hook to fetch from different apis when triggerred 
+    React.useEffect(()=> {
+        chooseApi(customizedApi);
+    },[customizedApi])
+    
+
+
     return (
         <AppBar position="static">
             <Grid container justifyContent="space-between" >
                 <Grid item xs={0} md={4}>
-                    <Typography
-                        variant="h4"
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none' ,md:'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 400,
-                            letterSpacing: '.1rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        RSM - Liping Ma
-                    </Typography>
-                </Grid>
+                    <Stack>
+                        <Typography
+                            variant="h4"
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 400,
+                                letterSpacing: '.1rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            RSM - Liping Ma
 
+                        </Typography>
+                        <FormControlLabel 
+                            control={<Switch 
+                                color="default" 
+                                onChange={updateApiSource}
+                                />} 
+                        label="Fetch from Liping's API" />
+                    </Stack>
+
+                    
+                </Grid>
+                    
                 <Grid item xs={12} md={4}>
                     <InputLabel id="us-states-select-label" 
                                 sx={{
